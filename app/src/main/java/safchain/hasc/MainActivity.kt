@@ -54,6 +54,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("page", "")
+            apply()
+        }
+
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController.navigate(R.id.nav_home)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
@@ -65,30 +78,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return true
 
         val id = item.itemId
-
-        if (id == R.id.nav_home) {
-            with(sharedPref.edit()) {
-                putString("page", "")
-                apply()
+        when (id) {
+            R.id.nav_home -> {
+                with(sharedPref.edit()) {
+                    putString("page", "")
+                    apply()
+                }
             }
-        } else if (id == R.id.nav_add) {
-            with(sharedPref.edit()) {
-                putString("page", "/add.html")
-                apply()
+            R.id.nav_add -> {
+                with(sharedPref.edit()) {
+                    putString("page", "/add.html")
+                    apply()
+                }
+                home = false
             }
-            home = false
-        } else if (id == R.id.nav_devices) {
-            with(sharedPref.edit()) {
-                putString("page", "/list.html")
-                apply()
+            R.id.nav_devices -> {
+                with(sharedPref.edit()) {
+                    putString("page", "/list.html")
+                    apply()
+                }
+                home = false
             }
-            home = false
-        } else if (id == R.id.nav_logout) {
-            with(sharedPref.edit()) {
-                putString("page", "/login.html")
-                apply()
+            R.id.nav_logout -> {
+                with(sharedPref.edit()) {
+                    putString("page", "/login.html")
+                    apply()
+                }
+                home = false
             }
-            home = false
         }
 
         val drawerLayout: DrawerLayout = binding.drawerLayout

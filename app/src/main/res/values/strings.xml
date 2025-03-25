@@ -13,4 +13,5 @@
     <string name="menu_logout">Logout</string>
     <string name="enter_gateway_address">Enter Gateway Address</string>
     <string name="save">SAVE</string>
+    <string name="https_192_168_1_80_8000">https://192.168.1.80:8000</string>
 </resources>

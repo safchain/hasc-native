@@ -2,21 +2,25 @@ package safchain.hasc.ui.home
 
 import android.Manifest
 import android.content.Context
+import android.os.Vibrator
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.ConsoleMessage
 import android.webkit.CookieManager
+import android.webkit.JavascriptInterface
 import android.webkit.PermissionRequest
 import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.result.contract.ActivityResultContracts
+
 import androidx.fragment.app.Fragment
 import safchain.hasc.databinding.FragmentHomeBinding
 
@@ -48,6 +52,10 @@ class HomeFragment : Fragment() {
         val webView: WebView = binding.webView
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
+
+        val vibrator: Vibrator = getActivity()?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        webView.addJavascriptInterface(WebAppInterface(vibrator), "AndroidHaptic")
+
         webView.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(message: ConsoleMessage): Boolean {
                 Log.d("HASC", "${message.message()} -- From line " +
@@ -66,9 +74,7 @@ class HomeFragment : Fragment() {
         })
         webView.setWebChromeClient(object : WebChromeClient() {
             override fun onPermissionRequest(request: PermissionRequest) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    request.grant(request.resources)
-                }
+                request.grant(request.resources)
             }
         })
 
@@ -90,5 +96,23 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    class WebAppInterface(vibrator: Vibrator) {
+        private var vibrator: Vibrator? = null;
+
+        init {
+            this.vibrator = vibrator
+        }
+
+        @JavascriptInterface
+        fun vibrate(duration: Long) {
+            @Suppress("DEPRECATION")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator?.vibrate(100)
+            }
+        }
     }
 }
