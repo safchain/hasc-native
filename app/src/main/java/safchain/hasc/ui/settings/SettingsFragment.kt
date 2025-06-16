@@ -34,10 +34,15 @@ class SettingsFragment: Fragment() {
         val endpointInputText = binding.endpointTextInput
         endpointInputText.setText(endpoint)
 
+        val charts = sharedPref.getString("charts", "")
+        val chartsInputText = binding.chartsTextInput
+        chartsInputText.setText(charts)
+
         val saveBtn = binding.saveButton
         saveBtn.setOnClickListener {
             with (sharedPref.edit()) {
                 putString("endpoint", endpointInputText.text.toString())
+                putString("charts", chartsInputText.text.toString())
                 apply()
 
                 Toast.makeText(context, "saved!", Toast.LENGTH_SHORT).show()

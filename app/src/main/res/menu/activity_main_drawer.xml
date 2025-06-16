@@ -15,7 +15,15 @@
         <item
             android:id="@+id/nav_add"
             android:icon="@drawable/baseline_device_unknown_24"
-            android:title="@string/menu_new_device" />
+            android:title="@string/menu_add_device" />
+        <item
+            android:id="@+id/nav_setup_wifi"
+            android:icon="@drawable/baseline_phone_link_setup"
+            android:title="@string/menu_setup_device" />
+        <item
+            android:id="@+id/nav_charts"
+            android:icon="@drawable/baseline_charts"
+            android:title="@string/menu_charts" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/baseline_logout_24"

@@ -36,6 +36,26 @@
             android:inputType="text"
             android:minEms="15"
             android:textAlignment="center" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20sp"/>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_charts_address"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/charts_text_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#e24c75"
+            android:hint="@string/https_192_168_1_80_8000"
+            android:inputType="text"
+            android:minEms="15"
+            android:textAlignment="center" />
 
         <LinearLayout
             android:layout_width="wrap_content"

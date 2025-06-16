@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_devices, R.id.nav_add, R.id.nav_logout
+                R.id.nav_home, R.id.nav_devices, R.id.nav_add, R.id.nav_setup_wifi, R.id.nav_logout
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return true
+        val charts = sharedPref.getString("charts", "")
 
         val id = item.itemId
         when (id) {
@@ -95,6 +96,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_devices -> {
                 with(sharedPref.edit()) {
                     putString("page", "/list.html")
+                    apply()
+                }
+                home = false
+            }
+            R.id.nav_setup_wifi -> {
+                with(sharedPref.edit()) {
+                    putString("page", "https://192.168.123.1/setup.html")
+                    apply()
+                }
+                home = false
+            }
+            R.id.nav_charts -> {
+                with(sharedPref.edit()) {
+                    putString("page", charts)
                     apply()
                 }
                 home = false
